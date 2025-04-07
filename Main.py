@@ -19,6 +19,5 @@ class Main:
 
     def startApp(self):
         self.app.run(debug=True)
-
     def getApp(self):
         return self.app

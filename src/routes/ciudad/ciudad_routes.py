@@ -22,14 +22,14 @@ class CiudadRoutes:
             This method handles the GET request for the ciudad resource.
             """
             return self.ciudad_controller.get_ciudad()
-        @self.app.route('/put/ciudad/<int:id>',methods=['PUT'])
-        def put_ciudad():
+        @self.app.route('/put/ciudad/<uuid:id>',methods=['PUT'])
+        def put_ciudad(id):
             """
             This method handles the PUT request for the ciudad resource.
             """
-            return self.ciudad_controller.put_ciudad()
-        @self.app.route('/get/ciudad/<int:id>',methods=['GET'])
-        def get_ciudad_id(id):
+            return self.ciudad_controller.put_ciudad(id)
+        @self.app.route('/get/ciudad/<uuid:id>',methods=['GET'])
+        def get_ciudad_by_id(id):
             """
             This method handles the GET request for the ciudad resource by id.
             """
