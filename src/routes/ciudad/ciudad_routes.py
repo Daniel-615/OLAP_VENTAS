@@ -1,3 +1,5 @@
+from flask import request
+
 class CiudadRoutes:
     """
     This class defines the routes for the Ciudad resource.
@@ -15,7 +17,11 @@ class CiudadRoutes:
             """
             This method handles the POST request for the ciudad resource.
             """
-            return self.ciudad_controller.post_ciudad()
+
+            data = request.get_json()
+            if not data:
+                return {"error": "Request body is missing or invalid"}, 400
+            return self.ciudad_controller.post_ciudad(data)
         @self.app.route('/get/ciudad',methods=['GET'])
         def get_ciudad():
             """
