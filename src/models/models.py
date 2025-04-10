@@ -7,6 +7,7 @@ class Models:
 
         class DIM_GERENTE(db.Model):
             __tablename__ = 'DIM_GERENTE'
+            __table_args__ = {'extend_existing': True}
             gerente_key = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
             gerente_id = db.Column(db.String(50), nullable=False, unique=True)
             nombre = db.Column(db.String(30), nullable=False)
@@ -16,6 +17,7 @@ class Models:
         
         class DIM_REGION(db.Model):
             __tablename__ = 'DIM_REGION'
+            __table_args__ = {'extend_existing': True}
             region_key = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
             region_nombre = db.Column(db.String(100), nullable=False, unique=True)
             def to_dict(self):
@@ -24,6 +26,7 @@ class Models:
 
         class DIM_CIUDAD(db.Model):
             __tablename__ = 'DIM_CIUDAD'
+            __table_args__ = {'extend_existing': True}
             ciudad_key = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
             ciudad_nombre = db.Column(db.String(100), nullable=False, unique=True)
             region_key = db.Column(UUID(as_uuid=True), db.ForeignKey('DIM_REGION.region_key'), nullable=False)
@@ -33,6 +36,7 @@ class Models:
 
         class DIM_SEGMENTO(db.Model):
             __tablename__ = 'DIM_SEGMENTO'
+            __table_args__ = {'extend_existing': True}
             segmento_key = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
             segmento_id = db.Column(db.String(50), nullable=False, unique=True)
             nombre = db.Column(db.String(30), nullable=False)
@@ -44,6 +48,7 @@ class Models:
             __tablename__ = 'DIM_CLIENTE'
             __table_args__ = (
                 db.UniqueConstraint('nombre', 'apellido', 'email', name='uq_nombre_apellido_email'),
+                {'extend_existing': True}
             )
             cliente_key = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
             cliente_id = db.Column(db.String(50), nullable=False, unique=True)
@@ -64,6 +69,7 @@ class Models:
 
         class DIM_CLIENTE_SEGMENTO(db.Model):
             __tablename__ = 'DIM_CLIENTE_SEGMENTO'
+            __table_args__ = {'extend_existing': True}
             cliente_segmento_key = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
             cliente_key = db.Column(UUID(as_uuid=True), db.ForeignKey('DIM_CLIENTE.cliente_key'), nullable=False)
             segmento_key = db.Column(UUID(as_uuid=True), db.ForeignKey('DIM_SEGMENTO.segmento_key'), nullable=False)
@@ -79,7 +85,8 @@ class Models:
             __table_args__ = (
                 db.UniqueConstraint('nombre_tienda', 'direccion', 'ciudad', name='uq_nombre_direccion_ciudad'),
                 db.CheckConstraint('tamaño_m2 > 0', name='ck_tamaño_m2_positive'),
-                db.CheckConstraint('horario_apertura < horario_cierre', name='ck_horario_apertura_cierre')
+                db.CheckConstraint('horario_apertura < horario_cierre', name='ck_horario_apertura_cierre'),
+                {'extend_existing': True}
             )
             tienda_key = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
             tienda_id = db.Column(db.String(50), nullable=False, unique=True)
@@ -105,7 +112,8 @@ class Models:
             __table_args__ = (
                 db.UniqueConstraint('vendedor_id', name='uq_vendedor_id'),
                 db.CheckConstraint('edad > 0', name='ck_edad_positive'),
-                db.CheckConstraint('salario > 0', name='ck_salario_positive')
+                db.CheckConstraint('salario > 0', name='ck_salario_positive'),
+                {'extend_existing': True}
             )
             vendedor_key = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
             vendedor_id = db.Column(db.String(50), nullable=False, unique=True)
@@ -131,6 +139,7 @@ class Models:
             activo = db.Column(db.Boolean, nullable=False)
             __table_args__ = (
                 db.CheckConstraint('fecha_renuncia IS NULL OR fecha_renuncia > fecha_contratacion', name='ck_fecha_renuncia_valida'),
+                {'extend_existing': True}
             )
         self.VENDEDOR_TIENDA = VENDEDOR_TIENDA
 

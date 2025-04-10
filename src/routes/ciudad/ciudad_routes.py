@@ -5,6 +5,7 @@ class CiudadRoutes:
     This class defines the routes for the Ciudad resource.
     """
     def __init__(self,app_initilizer):
+
         self.app=app_initilizer
         self.routes()
     
@@ -21,7 +22,8 @@ class CiudadRoutes:
             data = request.get_json()
             if not data:
                 return {"error": "Request body is missing or invalid"}, 400
-            return self.ciudad_controller.post_ciudad(data)
+            return self.app.getCiudadControllers().post_ciudad(data)
+
         @self.app.route('/get/ciudad',methods=['GET'])
         def get_ciudad():
             """

@@ -15,7 +15,7 @@ class CiudadController:
             previous_region = self.models.DIM_REGION.query.filter_by(region_key=region_key).first()
             if not previous_region:
                 return {"message": "Región no encontrada entre los registros."}, 404
-            new_city = self.models.DIM_CIUDAD(ciudad_nombre=ciudad_nombre, region_key=region_key)
+            new_city = self.models.DIM_CIUDAD(ciudad_nombre=ciudad_nombre, region_key=previous_region)
             try:
                 self.getDb().session.add(new_city)
                 self.getDb().session.commit()
