@@ -1,11 +1,10 @@
-from src.models.models import Models
 from flask import request
 class ClienteSegmentoController:
-    def __init__(self,db):
+    def __init__(self,db,models):
         """
         Inicializa el controlador de cliente segmento con el servicio proporcionado.
-        """
-        self.models=Models(db)
+        """ 
+        self.models=models
         self.db=db
     def getDb(self):
         return self.db

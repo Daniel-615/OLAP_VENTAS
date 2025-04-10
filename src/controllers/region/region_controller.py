@@ -1,3 +1,6 @@
 class RegionController:
-    def __init__(self,region_service):
-        self.region_service=region_service
+    def __init__(self,db,models):
+        self.db=db
+        self.models=models
+    
+    

@@ -1,3 +1,4 @@
 class TiendaController:
-    def __init__(self,tienda_service):
-        self.tienda_service=tienda_service
+    def __init__(self,db,models):
+        self.models=models
+        self.db=db

@@ -1,8 +1,7 @@
-from src.models.models import Models
 from flask import request
 class CiudadController:
-    def __init__(self, db):
-        self.models = Models(db)
+    def __init__(self, db,models):
+        self.models =models
         self.db=db
     def getDb(self):
         return self.db
