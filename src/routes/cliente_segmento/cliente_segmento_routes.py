@@ -1,3 +1,4 @@
+from flask import request
 class ClienteSegmentoRoutes:
     def __init__(self,app_initilizer):
         """
@@ -10,7 +11,10 @@ class ClienteSegmentoRoutes:
             """
             Maneja la solicitud POST para el recurso cliente_segmento.
             """
-            return self.cliente_segmento_controller.post_cliente_segmento()
+            data = request.get_json()
+            if not data:
+                return {"error": "Request body is missing or invalid"}, 400
+            return self.cliente_segmento_controller.post_cliente_segmento(data)
         @self.app.route('/get/cliente_segmento',methods=['GET'])
         def get_cliente_segmento():
             """

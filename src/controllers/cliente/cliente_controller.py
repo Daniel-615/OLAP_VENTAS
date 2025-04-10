@@ -1,4 +1,4 @@
-from src.models import Models
+from src.models.models import Models
 from flask import request
 class ClienteController:
     def __init__(self,db):
@@ -71,7 +71,7 @@ class ClienteController:
         if not cliente:
             return {
                 "message": "No se ha encontrado el cliente con el id establecido."
-            }
+            },404
         
         if not data.cliente_gmail or not data.cliente_ciudad or not data.cliente_telefono or not data.cliente_region:
             return{

@@ -1,4 +1,4 @@
-from src.models import Models
+from src.models.models import Models
 from flask import request
 class CiudadController:
     def __init__(self, db):
