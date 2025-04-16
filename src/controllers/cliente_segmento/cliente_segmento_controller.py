@@ -29,7 +29,7 @@ class ClienteSegmentoController:
             except Exception as e:
                 self.getDb().session.rollback()
                 return {
-                    "message": f"Error al crear la ciudad: {str(e)}"
+                    "message": f"Error al crear el cliente segmento: {str(e)}"
                 },500
     def get_cliente_segmento(self):
         page=request.args.get('page',default=1,type=int)
@@ -45,7 +45,7 @@ class ClienteSegmentoController:
             return{
                 "clientes_segmento": [cliente_segmento.to_dict() for cliente_segmento in all_cliente_segmento.items],
                 "total": all_cliente_segmento.total,
-                "pagina_actual": all_cliente_segmento.total,
+                "pagina_actual": all_cliente_segmento.page,
                 "total_paginas": all_cliente_segmento.pages
             },200
     def put_cliente_segmento(self,id,data):

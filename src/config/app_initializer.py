@@ -28,15 +28,25 @@ class AppInitializer:
         return self.cliente_controllers
     def getClienteSegmentoControllers(self):
         return self.cliente_segmento_controllers
+    def getGerenteControllers(self):
+        return self.gerente_controllers
+    def getRegionControllers(self):
+        return self.region_controllers
+    def getVendedorControllers(self):
+        return self.vendedor_controllers
+    def getTiendaControllers(self):
+        return self.tienda_controllers
+    def getVendedorTiendaControllers(self):
+        return self.vendedor_tienda_controllers
     def routes(self):
         self.ciudad_routes=CI_R(self.app,self)
         self.cliente_routes=C_R(self.app,self)
         self.cliente_segmento_routes=C_S_R(self.app,self)
-        self.gerente_routes=G_R(self.app)
-        self.region_routes=R_R(self.app)
-        self.vendedor_routes=V_R(self.app)
-        self.tienda_routes=T_R(self.app)
-        self.vendedor_tienda_routes=V_T_R(self.app)
+        self.gerente_routes=G_R(self.app,self)
+        self.region_routes=R_R(self.app,self)
+        self.vendedor_routes=V_R(self.app,self)
+        self.tienda_routes=T_R(self.app,self)
+        self.vendedor_tienda_routes=V_T_R(self.app,self)
     def controllers(self,db,models):
         self.ciudad_controllers=CI_C(db,models)
         self.cliente_controllers=C_C(db,models)
