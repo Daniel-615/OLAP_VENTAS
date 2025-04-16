@@ -14,6 +14,8 @@ class Main:
         
         self.db = SQLAlchemy(self.getApp())
         self.models = Models(self.db)
+        with self.app.app_context():
+             self.db.create_all()
         self.migrate = Migrate(self.getApp(), self.db)  # Migraciones de la base de datos
         self.app_initializer = AppInitializer(self.getApp(),self.db,self.models)  # Inicializador de la aplicación
     def startApp(self):
