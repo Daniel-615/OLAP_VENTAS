@@ -120,7 +120,7 @@ class Models:
             nombre = db.Column(db.String(30), nullable=False)
             edad = db.Column(db.Integer, nullable=False)
             salario = db.Column(db.Float, nullable=False)
-            activo = db.Column(db.Boolean, nullable=False)
+            activo = db.Column(db.Boolean, nullable=False,default=True)
             def to_dict(self):
                 return {
                     'nombre': self.nombre,
@@ -136,7 +136,7 @@ class Models:
             tienda_key = db.Column(UUID(as_uuid=True), db.ForeignKey('DIM_TIENDA.tienda_key'), nullable=False)
             fecha_contratacion = db.Column(db.Date, nullable=False,default=datetime.date.today)
             fecha_renuncia = db.Column(db.Date, nullable=True)
-            activo = db.Column(db.Boolean, nullable=False)
+            activo = db.Column(db.Boolean, nullable=False,default=True)
             __table_args__ = (
                 db.CheckConstraint('fecha_renuncia IS NULL OR fecha_renuncia > fecha_contratacion', name='ck_fecha_renuncia_valida'),
                 {'extend_existing': True}
