@@ -1,6 +1,6 @@
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
-
+import datetime
 class Models:
     def __init__(self, db):
         self.db = db
@@ -58,7 +58,7 @@ class Models:
             telefono = db.Column(db.String(20), nullable=False, unique=True)
             ciudad = db.Column(UUID(as_uuid=True),db.ForeignKey('DIM_CIUDAD.ciudad_key'), nullable=False)
             region = db.Column(UUID(as_uuid=True),db.ForeignKey('DIM_REGION.region_key'), nullable=False)
-            fecha_registro = db.Column(db.Date, nullable=False)
+            fecha_registro = db.Column(db.Date, nullable=False,default=datetime.date.today)
             def to_dict(self):
                 return {
                     'nombre': self.nombre,
@@ -95,7 +95,7 @@ class Models:
             ciudad = db.Column(UUID(as_uuid=True),db.ForeignKey('DIM_CIUDAD.ciudad_key'), nullable=False)
             region = db.Column(UUID(as_uuid=True),db.ForeignKey('DIM_REGION.region_key'), nullable=False)
             tamaño_m2 = db.Column(db.Float, nullable=False)
-            fecha_apertura = db.Column(db.Date, nullable=False)
+            fecha_apertura = db.Column(db.Date, nullable=False,default=datetime.date.today)
             horario_apertura = db.Column(db.Time, nullable=False)
             horario_cierre = db.Column(db.Time, nullable=False)
             def to_dict(self):
@@ -134,7 +134,7 @@ class Models:
             id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
             vendedor_key = db.Column(UUID(as_uuid=True), db.ForeignKey('DIM_VENDEDOR.vendedor_key'), nullable=False)
             tienda_key = db.Column(UUID(as_uuid=True), db.ForeignKey('DIM_TIENDA.tienda_key'), nullable=False)
-            fecha_contratacion = db.Column(db.Date, nullable=False)
+            fecha_contratacion = db.Column(db.Date, nullable=False,default=datetime.date.today)
             fecha_renuncia = db.Column(db.Date, nullable=True)
             activo = db.Column(db.Boolean, nullable=False)
             __table_args__ = (
