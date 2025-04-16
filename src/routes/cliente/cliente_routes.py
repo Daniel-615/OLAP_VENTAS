@@ -1,7 +1,8 @@
+from flask import request
 class ClienteRoutes:
-    def __init__(self,app_initilizer):
-
-        self.app=app_initilizer
+    def __init__(self,app,app_initializer):
+        self.app=app
+        self.app_initializer=app_initializer
         self.routes()
     def routes(self):
         """
@@ -12,23 +13,26 @@ class ClienteRoutes:
             """
             This method handles the POST request for the cliente resource.
             """
-            return self.cliente_controller.post_cliente()
+            return self.app_initializer.getClienteControllers().post_cliente()
         @self.app.route('/get/cliente',methods=['GET'])
         def get_cliente():
             """
             This method handles the GET request for the cliente resource.
             """
-            return self.cliente_controller.get_cliente()
-        @self.app.route('/put/cliente/<int:id>',methods=['PUT'])
+            return self.app_initializer.getClienteControllers().get_cliente()
+        @self.app.route('/put/cliente/<uuid:id>',methods=['PUT'])
         def put_cliente(id):
             """
             This method handles the PUT request for the cliente resource.
             """
-            return self.cliente_controller.put_cliente(id)
-        @self.app.route('/get/cliente/<int:id>',methods=['GET'])
+            data = request.get_json()
+            if not data:
+                return {"error": "Request body is missing or invalid"}, 400
+            return self.app_initializer.getClienteControllers().put_cliente(id,data)
+        @self.app.route('/get/cliente/<uuid:id>',methods=['GET'])
         def get_cliente_by_id(id):
             """
             This method handles the GET request for the cliente resource by id.
             """
-            return self.cliente_controller.get_cliente_id(id)
+            return self.app_initializer.getClienteControllers().get_cliente_id(id)
         

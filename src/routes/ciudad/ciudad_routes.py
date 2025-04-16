@@ -4,9 +4,9 @@ class CiudadRoutes:
     """
     This class defines the routes for the Ciudad resource.
     """
-    def __init__(self,app_initilizer):
-
-        self.app=app_initilizer
+    def __init__(self,app,app_initializer):
+        self.app=app
+        self.app_initializer=app_initializer
         self.routes()
     
     def routes(self):
@@ -22,24 +22,27 @@ class CiudadRoutes:
             data = request.get_json()
             if not data:
                 return {"error": "Request body is missing or invalid"}, 400
-            return self.app.getCiudadControllers().post_ciudad(data)
+            return self.app_initializer.getCiudadControllers().post_ciudad(data)
 
         @self.app.route('/get/ciudad',methods=['GET'])
         def get_ciudad():
             """
             This method handles the GET request for the ciudad resource.
             """
-            return self.ciudad_controller.get_ciudad()
+            return self.app_initializer.getCiudadControllers().get_ciudad()
         @self.app.route('/put/ciudad/<uuid:id>',methods=['PUT'])
         def put_ciudad(id):
             """
             This method handles the PUT request for the ciudad resource.
             """
-            return self.ciudad_controller.put_ciudad(id)
+            data = request.get_json()
+            if not data:
+                return {"error": "Request body is missing or invalid"}, 400
+            return self.app_initializer.getCiudadControllers().put_ciudad(id,data)
         @self.app.route('/get/ciudad/<uuid:id>',methods=['GET'])
         def get_ciudad_by_id(id):
             """
             This method handles the GET request for the ciudad resource by id.
             """
-            return self.ciudad_controller.get_ciudad_id(id)
+            return self.app_initializer.getCiudadControllers().get_ciudad_id(id)
 

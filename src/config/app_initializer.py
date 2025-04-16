@@ -24,10 +24,14 @@ class AppInitializer:
         self.controllers(db,models)
     def getCiudadControllers(self):
         return self.ciudad_controllers
+    def getClienteControllers(self):
+        return self.cliente_controllers
+    def getClienteSegmentoControllers(self):
+        return self.cliente_segmento_controllers
     def routes(self):
-        self.ciudad_routes=CI_R(self.app)
-        self.cliente_routes=C_R(self.app)
-        self.cliente_segmento_routes=C_S_R(self.app)
+        self.ciudad_routes=CI_R(self.app,self)
+        self.cliente_routes=C_R(self.app,self)
+        self.cliente_segmento_routes=C_S_R(self.app,self)
         self.gerente_routes=G_R(self.app)
         self.region_routes=R_R(self.app)
         self.vendedor_routes=V_R(self.app)
