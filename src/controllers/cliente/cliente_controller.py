@@ -9,13 +9,14 @@ class ClienteController:
     def getDb(self):
         return self.db
     def post_cliente(self,data):
-        cliente_id=data.cliente_id
-        nombre=data.cliente_nombre
-        apellido=data.cliente_apellido
-        gmail=data.cliente_gmail
-        telefono=data.cliente_telefono
-        ciudad_id=data.ciudad_id
-        region_id=data.region_id
+        data = request.get_json()
+        cliente_id=data['cliente_id']
+        nombre=data['cliente_nombre']
+        apellido=data['cliente_apellido']
+        gmail=data['cliente_gmail']
+        telefono=data['cliente_telefono']
+        ciudad_id=data['ciudad_id']
+        region_id=data['region_id']
         if not cliente_id or not nombre:
             return {
                 "message" : "'nombre' y 'client_id' requeridos."
@@ -72,14 +73,14 @@ class ClienteController:
                 "message": "No se ha encontrado el cliente con el id establecido."
             },404
         
-        if not data.cliente_gmail or not data.cliente_ciudad or not data.cliente_telefono or not data.cliente_region:
+        if not data['cliente_gmail'] or not data['cliente_ciudad'] or not data['cliente_telefono'] or not data['cliente_region']:
             return{
                 "message": "'cliente_gmail', 'cliente_ciudad', 'cliente_telefono' y 'cliente_region' son requeridos. "
             },404
-        cliente.email=data.cliente_gmail
-        cliente.ciudad=data.cliente_ciudad
-        cliente.region=data.cliente_region
-        cliente.telefono=data.cliente_telefono
+        cliente.email=data['cliente_gmail']
+        cliente.ciudad=data['cliente_ciudad']
+        cliente.region=data['cliente_region']
+        cliente.telefono=data['cliente_telefono']
 
         #Guardar los campos
         try:

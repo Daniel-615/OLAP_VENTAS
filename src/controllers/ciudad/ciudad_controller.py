@@ -1,4 +1,5 @@
 from flask import request
+
 class CiudadController:
     def __init__(self, db,models):
         self.models =models
@@ -6,8 +7,10 @@ class CiudadController:
     def getDb(self):
         return self.db
     def post_ciudad(self,data):
-        ciudad_nombre=data.ciudad_nombre
-        region_key=data.region_key
+        data = request.get_json()
+
+        ciudad_nombre=data['ciudad_nombre']
+        region_key=data['region_key']
         if not ciudad_nombre or not region_key:
             return {"message": "Nombre y Región son requeridos."}, 400
         else:
@@ -47,12 +50,12 @@ class CiudadController:
             return {"message": "No se ha encontrado la ciudad con el ID establecido."}, 404
         
         # Validar si 'ciudad_nombre' está en los datos
-        if not data.ciudad_nombre:
+        if not data['ciudad_nombre']:
             return {
                 "message": "El atributo 'ciudad_nombre' es requerido."
                 }, 400
         
-        ciudad.nombre = data.ciudad_nombre
+        ciudad.nombre = data['ciudad_nombre']
         
         # Guardar los cambios
         try:

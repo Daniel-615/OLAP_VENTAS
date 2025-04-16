@@ -9,8 +9,9 @@ class ClienteSegmentoController:
     def getDb(self):
         return self.db
     def post_cliente_segmento(self,data):
-        segmento_key=data.segmento_key
-        cliente_key=data.cliente_key
+        data=request.get_json()
+        segmento_key=data['segmento_key']
+        cliente_key=data['cliente_key']
         if not cliente_key or not segmento_key:
             return{
                 "message": "'cliente_key' y 'segmento_key' son requeridos."
@@ -53,5 +54,33 @@ class ClienteSegmentoController:
             return {
                 "message": "No se ha encontrado el cliente con el id establecido."
             },404
+        if not data['segmento_key']:
+            return{
+                "message": "El atributo 'segmento_key' es requerido."
+            },400
+        cliente_segmento.segmento_key=data['segmento_key']
+        try:
+            self.getDb().session.add(cliente_segmento)
+            self.getDb().session.commit()
+        except Exception as e:
+            self.getDb().session.rollback()
+            return{
+                "message": f"Error al guardar los cambios: {str(e)}"
+            },500
+        return{
+            "nombre": cliente_segmento.segmento_key
+        },200
+    def get_cliente_segmento_id(self,id):
+        cliente_segmento=self.models.DIM_CLIENTE_SEGMENTO.query.filter_by(cliente_segmento=id)
+        if not cliente_segmento:
+            return {
+                "message": "Cliente segmento no encontrado por el id requerido."
+            },404
+        else:
+            return{
+                "segmento_key": cliente_segmento.segmento_key,
+                "cliente_key": cliente_segmento.cliente_key
+            }
+        
         
         
