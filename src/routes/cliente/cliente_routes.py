@@ -13,7 +13,10 @@ class ClienteRoutes:
             """
             This method handles the POST request for the cliente resource.
             """
-            return self.app_initializer.getClienteControllers().post_cliente()
+            data = request.get_json()
+            if not data:
+                return {"error": "Request body is missing or invalid"}, 400
+            return self.app_initializer.getClienteControllers().post_cliente(data)
         @self.app.route('/get/cliente',methods=['GET'])
         def get_cliente():
             """
