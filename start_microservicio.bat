@@ -2,7 +2,7 @@
 echo Iniciando servidor Flask...
 
 :: Cambiar a la carpeta del entorno virtual si es necesario
-:: call env\Scripts\activate.bat
+call env\Scripts\activate.bat
 
 start cmd /k "flask run"
 
