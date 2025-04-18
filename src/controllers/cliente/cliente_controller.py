@@ -9,37 +9,37 @@ class ClienteController:
     def getDb(self):
         return self.db
     def post_cliente(self,data):
-        data = request.get_json()
         cliente_id=data.get('cliente_id')
         nombre=data.get('cliente_nombre')
         apellido=data.get('cliente_apellido')
         gmail=data.get('cliente_gmail')
         telefono=data.get('cliente_telefono')
         ciudad_id=data.get('ciudad_id')
-        region_id=data.get('region_id')
         if not cliente_id or not nombre:
-            return {
-                "message" : "'nombre' y 'client_id' requeridos."
-                }
+            return jsonify({
+                "message" : "'cliente_nombre' y 'client_id' requeridos."
+                })
         if not apellido or not gmail:
-            return{
+            return jsonify({
                 "message": "'apellido' y 'gmail' son requeridos."
-            }
-        if not telefono or not ciudad_id or not region_id:
-            return{
-                "message": "'telefono' , 'ciudad_id' y 'region_id' son requeridos."
-            }
+            })
+        if not telefono or not ciudad_id:
+            return jsonify({
+                "message": "'cliente_telefono' , 'ciudad_id' son requeridos."
+            })
         else:
             previous_ciudad=self.models.DIM_CIUDAD.query.filter_by(ciudad_key=ciudad_id).first()
-            previous_region=self.models.DIM_REGION.query.filter_by(region_key=region_id).first()
+            if not previous_ciudad:
+                return jsonify({
+                    "message": f"No se encontró una ciudad con el ID '{ciudad_id}'."
+                }), 404
             new_client=self.models.DIM_CLIENTE(
                     cliente_id=cliente_id,
                     nombre=nombre,
                     apellido=apellido,
                     email=gmail,
                     telefono=telefono,
-                    ciudad=previous_ciudad,
-                    region=previous_region
+                    ciudad=previous_ciudad.ciudad_key,
                 )
             try:
                 self.getDb().session.add(new_client)
@@ -49,6 +49,13 @@ class ClienteController:
                 return jsonify({
                     "message": f"Error al crear la ciudad: {str(e)}"
                     }),500
+            return jsonify({
+                "message": "Cliente creado correctamente",
+                "cliente":{
+                    "cliente_id": cliente_id,
+                    "cliente_nombre": nombre
+                }
+            }),201
     def get_cliente(self):
         page=request.args.get('page',default=1,type=int)
         per_page=request.args.get('per_page',default=10,type=int)
@@ -88,15 +95,15 @@ class ClienteController:
             self.getDb().session.commit()
         except Exception as e:
             self.getDb().session.rollback()
-            return {
+            return jsonify({
                 "message": f"Error al guardar los cambios: {str(e)}"
-            },500
-        return{
+            }),500
+        return jsonify({
             "gmail": cliente.email,
             "ciudad": cliente.ciudad,
             "region": cliente.region,
             "telefono": cliente.telefono
-        },200
+        }),200
     def get_cliente_id(self,id):
         cliente=self.models.DIM_CLIENTE.query.filter_by(cliente_key=id).first()
         if not cliente:

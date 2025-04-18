@@ -1,4 +1,4 @@
-from flask import request
+from flask import request,jsonify
 class RegionRoutes:
     def __init__(self,app,app_initializer):
         """

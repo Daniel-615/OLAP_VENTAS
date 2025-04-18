@@ -6,7 +6,6 @@ class GerenteController:
     def getDb(self):
         return self.db
     def post_gerente(self,data):
-        data=request.json()
         gerente_id=data.get('gerente_id')
         nombre=data.get('gerente_nombre')
         if not gerente_id or not nombre:
@@ -26,6 +25,15 @@ class GerenteController:
             return jsonify({
                 "message": f"Error al crear el gerente: {str(e)}"
             }),500
+        
+        #Respuesta exitosa
+        return jsonify({
+        "message": "Gerente creado exitosamente.",
+        "gerente": {
+            "gerente_id": gerente_id,
+            "nombre": nombre
+        }
+        }), 201
     def get_gerente(self):
         page=request.args.get('page',default=1,type=int)
         per_page=request.args.get('per_page',default=10,type=int)
