@@ -21,7 +21,11 @@ class Models:
             region_key = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
             region_nombre = db.Column(db.String(100), nullable=False, unique=True)
             def to_dict(self):
-                return {'region_nombre': self.region_nombre}
+                return {
+                    'region_nombre': self.region_nombre,
+                    'region_key': self.region_key
+                    }
+
         self.DIM_REGION = DIM_REGION
 
         class DIM_CIUDAD(db.Model):
@@ -31,7 +35,11 @@ class Models:
             ciudad_nombre = db.Column(db.String(100), nullable=False, unique=True)
             region_key = db.Column(UUID(as_uuid=True), db.ForeignKey('DIM_REGION.region_key'), nullable=False)
             def to_dict(self):
-                return {'ciudad_nombre': self.ciudad_nombre, 'region_key': self.region_key}
+                return {
+                    'ciudad_nombre': self.ciudad_nombre, 
+                    'region_key': self.region_key,
+                    'ciudad_key': self.ciudad_key
+                    }
         self.DIM_CIUDAD = DIM_CIUDAD
 
         class DIM_SEGMENTO(db.Model):
@@ -41,7 +49,11 @@ class Models:
             segmento_id = db.Column(db.String(50), nullable=False, unique=True)
             nombre = db.Column(db.String(30), nullable=False)
             def to_dict(self):
-                return {'nombre': self.nombre}
+                return {
+                    'nombre': self.nombre,
+                    'segmento_key': self.segmento_key
+                }
+
         self.DIM_SEGMENTO = DIM_SEGMENTO
 
         class DIM_CLIENTE(db.Model):
@@ -57,13 +69,13 @@ class Models:
             email = db.Column(db.String(50), nullable=False, unique=True)
             telefono = db.Column(db.String(20), nullable=False, unique=True)
             ciudad = db.Column(UUID(as_uuid=True),db.ForeignKey('DIM_CIUDAD.ciudad_key'), nullable=False)
-            region = db.Column(UUID(as_uuid=True),db.ForeignKey('DIM_REGION.region_key'), nullable=False)
             fecha_registro = db.Column(db.Date, nullable=False,default=datetime.date.today)
             def to_dict(self):
                 return {
                     'nombre': self.nombre,
                     'apellido': self.apellido,
-                    'email': self.email
+                    'email': self.email,
+                    'cliente_key': self.cliente_key
                 }
         self.DIM_CLIENTE = DIM_CLIENTE
 
@@ -93,7 +105,6 @@ class Models:
             nombre_tienda = db.Column(db.String(100), nullable=False)
             direccion = db.Column(db.String(200), nullable=False)
             ciudad = db.Column(UUID(as_uuid=True),db.ForeignKey('DIM_CIUDAD.ciudad_key'), nullable=False)
-            region = db.Column(UUID(as_uuid=True),db.ForeignKey('DIM_REGION.region_key'), nullable=False)
             tamaño_m2 = db.Column(db.Float, nullable=False)
             fecha_apertura = db.Column(db.Date, nullable=False,default=datetime.date.today)
             horario_apertura = db.Column(db.Time, nullable=False)
@@ -101,9 +112,9 @@ class Models:
             def to_dict(self):
                 return {
                     'nombre_tienda': self.nombre_tienda,
+                    'tienda_key': self.tienda_key,
                     'direccion': self.direccion,
-                    'ciudad': self.ciudad,
-                    'region': self.region
+                    'ciudad': self.ciudad
                 }
         self.DIM_TIENDA = DIM_TIENDA
 
@@ -125,12 +136,13 @@ class Models:
                 return {
                     'nombre': self.nombre,
                     'edad': self.edad,
-                    'salario': self.salario
+                    'salario': self.salario,
+                    'vendedor_key': self.vendedor_key
                 }
         self.DIM_VENDEDOR = DIM_VENDEDOR
 
-        class VENDEDOR_TIENDA(db.Model):
-            __tablename__ = 'VENDEDOR_TIENDA'
+        class DIM_VENDEDOR_TIENDA(db.Model):
+            __tablename__ = 'DIM_VENDEDOR_TIENDA'
             id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
             vendedor_key = db.Column(UUID(as_uuid=True), db.ForeignKey('DIM_VENDEDOR.vendedor_key'), nullable=False)
             tienda_key = db.Column(UUID(as_uuid=True), db.ForeignKey('DIM_TIENDA.tienda_key'), nullable=False)
@@ -141,7 +153,7 @@ class Models:
                 db.CheckConstraint('fecha_renuncia IS NULL OR fecha_renuncia > fecha_contratacion', name='ck_fecha_renuncia_valida'),
                 {'extend_existing': True}
             )
-        self.VENDEDOR_TIENDA = VENDEDOR_TIENDA
+        self.DIM_VENDEDOR_TIENDA = DIM_VENDEDOR_TIENDA
 
     def getDB(self):
         return self.db
