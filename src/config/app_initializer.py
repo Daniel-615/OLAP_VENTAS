@@ -6,6 +6,7 @@ from src.routes.region.region_routes import RegionRoutes as R_R
 from src.routes.vendedor.vendedor_routes import VendedorRoutes as V_R
 from src.routes.tienda.tienda_routes import TiendaRoutes as T_R
 from src.routes.vendedor_tienda.vendedor_tienda_routes import VendedorTiendaRoutes as V_T_R
+from src.routes.segmento.segmento_routes import SegmentoRoutes as S_R
 
 from src.controllers.ciudad.ciudad_controller import CiudadController as CI_C
 from src.controllers.cliente.cliente_controller import ClienteController as C_C
@@ -15,13 +16,16 @@ from src.controllers.region.region_controller import RegionController as R_C
 from src.controllers.vendedor.vendedor_controller import VendedorController as V_C
 from src.controllers.tienda.tienda_controller import TiendaController as T_C
 from src.controllers.vendedor_tienda.vendedor_tienda_controller import VendedorTiendaController as V_T_C
+from src.controllers.segmento.segmento_controller import SegmentoController as S_C
 class AppInitializer:
     def __init__(self,app,db,models):
         """
         Inicializa las rutas de la aplicación con la instancia de Flask proporcionada."""
         self.app=app
-        self.routes()
         self.controllers(db,models)
+        self.routes()
+    def getSegmentoControllers(self):
+        return self.segmento_controllers
     def getCiudadControllers(self):
         return self.ciudad_controllers
     def getClienteControllers(self):
@@ -47,6 +51,7 @@ class AppInitializer:
         self.vendedor_routes=V_R(self.app,self)
         self.tienda_routes=T_R(self.app,self)
         self.vendedor_tienda_routes=V_T_R(self.app,self)
+        self.segmento_routes=S_R(self.app,self)
     def controllers(self,db,models):
         self.ciudad_controllers=CI_C(db,models)
         self.cliente_controllers=C_C(db,models)
@@ -56,3 +61,4 @@ class AppInitializer:
         self.vendedor_controllers=V_C(db,models)
         self.tienda_controllers=T_C(db,models)
         self.vendedor_tienda_controllers=V_T_C(db,models)
+        self.segmento_controllers=S_C(db,models)
