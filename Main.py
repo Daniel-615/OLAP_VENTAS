@@ -19,6 +19,6 @@ class Main:
         self.migrate = Migrate(self.getApp(), self.db)  # Migraciones de la base de datos
         self.app_initializer = AppInitializer(self.getApp(),self.db,self.models)  # Inicializador de la aplicación
     def startApp(self):
-        self.app.run(debug=True)
+        self.app.run(debug=True,host="0.0.0.0",port=5000)
     def getApp(self):
         return self.app

@@ -1,4 +1,4 @@
-from flask import request
+from flask import request,jsonify
 class ClienteController:
     def __init__(self,db,models):
         """
@@ -10,13 +10,13 @@ class ClienteController:
         return self.db
     def post_cliente(self,data):
         data = request.get_json()
-        cliente_id=data['cliente_id']
-        nombre=data['cliente_nombre']
-        apellido=data['cliente_apellido']
-        gmail=data['cliente_gmail']
-        telefono=data['cliente_telefono']
-        ciudad_id=data['ciudad_id']
-        region_id=data['region_id']
+        cliente_id=data.get('cliente_id')
+        nombre=data.get('cliente_nombre')
+        apellido=data.get('cliente_apellido')
+        gmail=data.get('cliente_gmail')
+        telefono=data.get('cliente_telefono')
+        ciudad_id=data.get('ciudad_id')
+        region_id=data.get('region_id')
         if not cliente_id or not nombre:
             return {
                 "message" : "'nombre' y 'client_id' requeridos."
@@ -31,7 +31,7 @@ class ClienteController:
             }
         else:
             previous_ciudad=self.models.DIM_CIUDAD.query.filter_by(ciudad_key=ciudad_id).first()
-            previous_region=self.models.DIM_REGION.query.filter_by(region_key=region_id)
+            previous_region=self.models.DIM_REGION.query.filter_by(region_key=region_id).first()
             new_client=self.models.DIM_CLIENTE(
                     cliente_id=cliente_id,
                     nombre=nombre,
@@ -46,9 +46,9 @@ class ClienteController:
                 self.getDb().session.commit()
             except Exception as e:
                 self.getDb().session.rollback()
-                return {
+                return jsonify({
                     "message": f"Error al crear la ciudad: {str(e)}"
-                    },500
+                    }),500
     def get_cliente(self):
         page=request.args.get('page',default=1,type=int)
         per_page=request.args.get('per_page',default=10,type=int)
@@ -56,9 +56,9 @@ class ClienteController:
         all_cliente=self.models.DIM_CLIENTE.query.paginate(page=page,per_page=per_page,error_out=False)
 
         if not all_cliente.items:
-            return{
+            return jsonify({
                 "message": "No hay clientes registrados."
-            },404
+            }),404
         else:
             return{
                 "clientes": [cliente.to_dict() for cliente in all_cliente.items],
@@ -67,19 +67,19 @@ class ClienteController:
                 "total_paginas": all_cliente.pages
             },200
     def put_cliente(self,id,data):
-        cliente=self.models.DIM_CLIENTE.query.filter_by(cliente_key=id)
+        cliente=self.models.DIM_CLIENTE.query.filter_by(cliente_key=id).first()
         if not cliente:
-            return {
+            return jsonify({
                 "message": "No se ha encontrado el cliente con el id establecido."
-            },404
+            }),404
         
-        if not data['cliente_gmail'] or not data['cliente_ciudad'] or not data['cliente_telefono'] or not data['cliente_region']:
-            return{
+        if not data.get('cliente_gmail') or not data.get('cliente_ciudad') or not data.get('cliente_telefono') or not data.get('cliente_region'):
+            return jsonify({
                 "message": "'cliente_gmail', 'cliente_ciudad', 'cliente_telefono' y 'cliente_region' son requeridos. "
-            },404
-        cliente.email=data['cliente_gmail']
-        cliente.ciudad=data['cliente_ciudad']
-        cliente.region=data['cliente_region']
+            }),404
+        cliente.email=data.get('cliente_gmail')
+        cliente.ciudad=data.get('cliente_ciudad')
+        cliente.region=data.get('cliente_region')
         cliente.telefono=data['cliente_telefono']
 
         #Guardar los campos
@@ -98,14 +98,14 @@ class ClienteController:
             "telefono": cliente.telefono
         },200
     def get_cliente_id(self,id):
-        cliente=self.models.DIM_CLIENTE.query.filter_by(cliente_key=id)
+        cliente=self.models.DIM_CLIENTE.query.filter_by(cliente_key=id).first()
         if not cliente:
-            return{
+            return jsonify({
                 "message": "Ciudad no encontrada por el id requerido."
-            },404
+            }),404
         else:
-            return{
+            return jsonify({
                 "nombre": cliente.nombre,
                 "apellido": cliente.apellido
-            }
+            })
         
