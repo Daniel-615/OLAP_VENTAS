@@ -13,7 +13,7 @@ class CiudadRoutes:
         """
         This method defines the routes for the ciudad resource.
         """
-        @self.app.route('/post/ciudad',methods=['POST'])
+        @self.app.route('/ventas/post/ciudad',methods=['POST'])
         def post_ciudad():
             """
             This method handles the POST request for the ciudad resource.
@@ -24,13 +24,13 @@ class CiudadRoutes:
                 return {"error": "Request body is missing or invalid"}, 400
             return self.app_initializer.getCiudadControllers().post_ciudad(data)
 
-        @self.app.route('/get/ciudad',methods=['GET'])
+        @self.app.route('/ventas/get/ciudad',methods=['GET'])
         def get_ciudad():
             """
             This method handles the GET request for the ciudad resource.
             """
             return self.app_initializer.getCiudadControllers().get_ciudad()
-        @self.app.route('/put/ciudad/<uuid:id>',methods=['PUT'])
+        @self.app.route('/ventas/put/ciudad/<uuid:id>',methods=['PUT'])
         def put_ciudad(id):
             """
             This method handles the PUT request for the ciudad resource.
