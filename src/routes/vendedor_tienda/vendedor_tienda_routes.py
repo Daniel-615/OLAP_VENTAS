@@ -1,4 +1,4 @@
-from flask import request
+from flask import request,jsonify
 class VendedorTiendaRoutes:
     def __init__(self,app,app_initializer):
         """
@@ -14,7 +14,7 @@ class VendedorTiendaRoutes:
             """
             data = request.get_json()
             if not data:
-                return {"error": "Request body is missing or invalid"}, 400
+                return jsonify({"error": "Request body is missing or invalid"}), 400
             return self.app_initializer.getVendedorTiendaControllers().post_vendedor_tienda(data)
         @self.app.route('/ventas/vendedor/tienda/get',methods=['GET'])
         def get_vendedor_tienda():
@@ -27,9 +27,6 @@ class VendedorTiendaRoutes:
             """
             Endpoint para obtener un vendedor en una tienda por su ID.
             """
-            data = request.get_json()
-            if not data:
-                return {"error": "Request body is missing or invalid"}, 400
             return self.app_initializer.getVendedorTiendaControllers().get_vendedor_tienda_by_id(id_vendedor_tienda)
         @self.app.route('/ventas/vendedor/tienda/put/<uuid:id_vendedor_tienda>',methods=['PUT'])
         def put_vendedor_tienda(id_vendedor_tienda):
@@ -38,5 +35,5 @@ class VendedorTiendaRoutes:
             """
             data = request.get_json()
             if not data:
-                return {"error": "Request body is missing or invalid"}, 400
+                return jsonify({"error": "Request body is missing or invalid"}), 400
             return self.app_initializer.getVendedorTiendaControllers().put_vendedor_tienda(id_vendedor_tienda,data)

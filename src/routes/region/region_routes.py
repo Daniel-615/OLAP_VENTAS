@@ -16,7 +16,7 @@ class RegionRoutes:
             """
             data = request.get_json()
             if not data:
-                return {"error": "Request body is missing or invalid"}, 400
+                return jsonify({"error": "Request body is missing or invalid"}), 400
             return self.app_initializer.getRegionControllers().post_region(data)
         @self.app.route('/ventas/get/region',methods=['GET'])
         def get_region():
@@ -31,7 +31,7 @@ class RegionRoutes:
             """
             data = request.get_json()
             if not data:
-                return {"error": "Request body is missing or invalid"}, 400
+                return jsonify({"error": "Request body is missing or invalid"}), 400
             return self.app_initializer.getRegionControllers().put_region(id,data)
         @self.app.route('/ventas/get/region/<uuid:id>',methods=['GET'])
         def get_region_by_id(id):

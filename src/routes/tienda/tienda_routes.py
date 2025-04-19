@@ -1,4 +1,4 @@
-from flask import request
+from flask import request,jsonify
 class TiendaRoutes:
     def __init__(self,app,app_initializer):
         """
@@ -14,7 +14,7 @@ class TiendaRoutes:
             """
             data = request.get_json()
             if not data:
-                return {"error": "Request body is missing or invalid"}, 400
+                return jsonify({"error": "Request body is missing or invalid"}), 400
             return self.app_initializer.getTiendaControllers().post_tienda(data)
         @self.app.route('/ventas/get/tienda',methods=['GET'])
         def get_tienda():
@@ -29,7 +29,7 @@ class TiendaRoutes:
             """
             data = request.get_json()
             if not data:
-                return {"error": "Request body is missing or invalid"}, 400
+                return jsonify({"error": "Request body is missing or invalid"}), 400
             return self.app_initializer.getTiendaControllers().put_tienda(id,data)
         @self.app.route('/ventas/get/tienda/<uuid:id>',methods=['GET'])
         def get_tienda_by_id(id):

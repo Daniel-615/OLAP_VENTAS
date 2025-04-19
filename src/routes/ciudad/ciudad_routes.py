@@ -1,5 +1,4 @@
-from flask import request
-
+from flask import request,jsonify
 class CiudadRoutes:
     """
     This class defines the routes for the Ciudad resource.
@@ -21,7 +20,7 @@ class CiudadRoutes:
 
             data = request.get_json()
             if not data:
-                return {"error": "Request body is missing or invalid"}, 400
+                return jsonify({"error": "Request body is missing or invalid"}), 400
             return self.app_initializer.getCiudadControllers().post_ciudad(data)
 
         @self.app.route('/ventas/get/ciudad',methods=['GET'])
@@ -37,7 +36,7 @@ class CiudadRoutes:
             """
             data = request.get_json()
             if not data:
-                return {"error": "Request body is missing or invalid"}, 400
+                return jsonify({"error": "Request body is missing or invalid"}), 400
             return self.app_initializer.getCiudadControllers().put_ciudad(id,data)
         @self.app.route('/get/ciudad/<uuid:id>',methods=['GET'])
         def get_ciudad_by_id(id):

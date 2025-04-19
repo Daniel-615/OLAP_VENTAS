@@ -52,7 +52,7 @@ class GerenteController:
                 "total_paginas": all_gerente.pages
             }),200
     def put_gerente(self,id,data):
-        gerente=self.models.DIM_GERENTE.query.filter_by(gerente_key=id)
+        gerente=self.models.DIM_GERENTE.query.filter_by(gerente_key=id).first()
         if not gerente:
             return jsonify({
                 "message": "No se ha encontrado el gerente con el id requerido."

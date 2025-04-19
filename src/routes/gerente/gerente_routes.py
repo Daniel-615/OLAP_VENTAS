@@ -1,4 +1,4 @@
-from flask import request
+from flask import request,jsonify
 class GerenteRoutes:
     def __init__(self,app,app_initializer):
         """
@@ -14,7 +14,7 @@ class GerenteRoutes:
             """
             data = request.get_json()
             if not data:
-                return {"error": "Request body is missing or invalid"}, 400
+                return jsonify({"error": "Request body is missing or invalid"}), 400
             return self.app_initializer.getGerenteControllers().post_gerente(data)
         @self.app.route('/ventas/get/gerente',methods=['GET'])
         def get_gerente():
@@ -29,7 +29,7 @@ class GerenteRoutes:
             """
             data = request.get_json()
             if not data:
-                return {"error": "Request body is missing or invalid"}, 400
+                return jsonify({"error": "Request body is missing or invalid"}), 400
             return self.app_initializer.getGerenteControllers().put_gerente(id,data)
         @self.app.route('/ventas/get/gerente/<uuid:id>',methods=['GET'])
         def get_gerente_by_id(id):

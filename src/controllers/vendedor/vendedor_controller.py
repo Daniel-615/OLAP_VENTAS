@@ -54,7 +54,7 @@ class VendedorController:
                 "total_paginas": all_vendedor.pages
             }),200
     def put_vendedor(self,id,data):
-        vendedor=self.models.DIM_VENDEDOR.query.filter_by(vendedor_key=id)
+        vendedor=self.models.DIM_VENDEDOR.query.filter_by(vendedor_key=id).first()
         if not vendedor:
             return{
                 "message": "No se ha encontrado el vendedor con el id requerido."
@@ -78,7 +78,7 @@ class VendedorController:
             "edad": vendedor.edad
         }),200
     def get_vendedor_id(self,id):
-        vendedor=self.models.DIM_VENDEDOR.query.filter_by(vendedor_key=id)
+        vendedor=self.models.DIM_VENDEDOR.query.filter_by(vendedor_key=id).first()
         if not vendedor:
             return jsonify({
                 "message": "Vendedor no encontrado por el id requerido."
@@ -90,7 +90,7 @@ class VendedorController:
                 "nombre": vendedor.nombre
             })
     def delete_vendedor(self,id):
-        vendedor=self.models.DIM_VENDEDOR.query.filter_by(vendedor_key=id)
+        vendedor=self.models.DIM_VENDEDOR.query.filter_by(vendedor_key=id).first()
         if not vendedor:
             return jsonify({
                 "message": "No se ha encontrado el vendedor con el id requerido."

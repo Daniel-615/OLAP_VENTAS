@@ -1,4 +1,4 @@
-from flask import request
+from flask import request,jsonify
 class ClienteSegmentoRoutes:
     def __init__(self,app,app_initializer):
         """
@@ -14,7 +14,7 @@ class ClienteSegmentoRoutes:
             """
             data = request.get_json()
             if not data:
-                return {"error": "Request body is missing or invalid"}, 400
+                return jsonify({"error": "Request body is missing or invalid"}), 400
             return self.app_initializer.getClienteSegmentoControllers().post_cliente_segmento(data)
         @self.app.route('/ventas/get/cliente_segmento',methods=['GET'])
         def get_cliente_segmento():
@@ -29,7 +29,7 @@ class ClienteSegmentoRoutes:
             """
             data = request.get_json()
             if not data:
-                return {"error": "Request body is missing or invalid"}, 400
+                return jsonify({"error": "Request body is missing or invalid"}), 400
             return self.app_initializer.getClienteSegmentoControllers().put_cliente_segmento(id,data)
         @self.app.route('/ventas/get/cliente_segmento/<uuid:id>',methods=['GET'])
         def get_cliente_segmento_by_id(id):

@@ -1,4 +1,4 @@
-from flask import request
+from flask import request,jsonify
 class ClienteRoutes:
     def __init__(self,app,app_initializer):
         self.app=app
@@ -15,7 +15,7 @@ class ClienteRoutes:
             """
             data = request.get_json()
             if not data:
-                return {"error": "Request body is missing or invalid"}, 400
+                return jsonify({"error": "Request body is missing or invalid"}), 400
             return self.app_initializer.getClienteControllers().post_cliente(data)
         @self.app.route('/ventas/get/cliente',methods=['GET'])
         def get_cliente():
@@ -30,7 +30,7 @@ class ClienteRoutes:
             """
             data = request.get_json()
             if not data:
-                return {"error": "Request body is missing or invalid"}, 400
+                return jsonify({"error": "Request body is missing or invalid"}), 400
             return self.app_initializer.getClienteControllers().put_cliente(id,data)
         @self.app.route('/ventas/get/cliente/<uuid:id>',methods=['GET'])
         def get_cliente_by_id(id):
