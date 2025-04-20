@@ -57,8 +57,7 @@ class ClienteSegmentoController:
             "total_paginas": pagination.pages
         }), 200
 
-    def put_cliente_segmento(self, id):
-        data = request.get_json()
+    def put_cliente_segmento(self, id,data):
         segmento_key = data.get('segmento_key')
 
         if not segmento_key:

@@ -84,6 +84,7 @@ class SegmentoController:
         segmento.nombre = nombre
 
         try:
+            self.getDb().session.add(segmento)
             self.getDb().session.commit()
         except Exception as e:
             self.getDb().session.rollback()
