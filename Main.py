@@ -3,6 +3,7 @@ from src.connection.db_connection import Connection
 from src.models.models import Models
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 from src.config.app_initializer import AppInitializer
 class Main:
     def __init__(self):
@@ -18,6 +19,7 @@ class Main:
              self.db.create_all()
         self.migrate = Migrate(self.getApp(), self.db)  # Migraciones de la base de datos
         self.app_initializer = AppInitializer(self.getApp(),self.db,self.models)  # Inicializador de la aplicación
+        CORS(self.getApp())
     def startApp(self):
         self.app.run(debug=True,host="0.0.0.0",port=5000)
     def getApp(self):

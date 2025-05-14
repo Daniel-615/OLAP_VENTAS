@@ -13,11 +13,33 @@ class TiendaController:
         tamaño_m2=data.get('tamaño_m2')
         horario_apertura=data.get('horario_apertura')
         horario_cierre=data.get('horario_cierre')
+        gerente_key=data.get('gerente_key')
+        if not gerente_key:
+            return {
+                "message": "'gerente_key' es requerido."
+            },400
         if not tienda_id or not nombre_tienda or not direccion or not ciudad_id or not tamaño_m2 or not horario_apertura or not horario_cierre:
             return {
                 "message": "'tienda_id', 'nombre_tienda', 'direccion', 'ciudad_id', 'tamaño_m2', 'horario_apertura' y 'horario_cierre' son requeridos."
-            }
+            },400
         else:
+            if self.models.DIM_TIENDA.query.filter_by(tienda_id=tienda_id).first():
+                return {
+                    "message": "Ya existe una tienda con el id proporcionado."
+                },400
+            if self.models.DIM_TIENDA.query.filter_by(nombre_tienda=nombre_tienda).first():
+                return {
+                    "message": "Ya existe una tienda con el nombre proporcionado."
+                },400
+            if self.models.DIM_TIENDA.query.filter_by(direccion=direccion).first():
+                return {
+                    "message": "Ya existe una tienda con la dirección proporcionada."
+                },400
+            if self.models.DIM_TIENDA.query.filter_by(ciudad=ciudad_id).first():
+                return {
+                    "message": "Ya existe una tienda con la ciudad proporcionada."
+                },400
+            previous_agente=self.models.DIM_GERENTE.query.filter_by(gerente_key=gerente_key).first()
             previous_ciudad=self.models.DIM_CIUDAD.query.filter_by(ciudad_key=ciudad_id).first()
             new_tienda=self.models.DIM_TIENDA(
                 tienda_id=tienda_id,
@@ -26,7 +48,8 @@ class TiendaController:
                 ciudad=previous_ciudad.ciudad_key,
                 tamaño_m2=tamaño_m2,
                 horario_apertura=horario_apertura,
-                horario_cierre=horario_cierre
+                horario_cierre=horario_cierre,
+                previous_agente=previous_agente.gerente_key,
             )
         try:
             self.getDb().session.add(new_tienda)

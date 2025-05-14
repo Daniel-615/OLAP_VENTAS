@@ -19,8 +19,8 @@ timeout /t 5 >nul
 REM Verificar que la clave SSH exista antes de seguir
 if not exist "%USERPROFILE%\.ssh\id_rsa.pub" (
     echo =====================================================
-    echo  ERROR: No se encontró la clave SSH en .ssh\id_rsa.pub
-    echo  Ejecutá ssh-keygen y registrala con:
+    echo  ERROR: No se encontro la clave SSH en .ssh\id_rsa.pub
+    echo  Ejecuta ssh-keygen y registrala con:
     echo     ssh -T serveo.net
     echo =====================================================
     pause

@@ -68,7 +68,7 @@ class CiudadController:
         
         # Respuesta exitosa
         return jsonify({
-            "nombre": ciudad.nombre
+            "nombre": ciudad.ciudad_nombre
         }), 200
     def get_ciudad_id(self,id):
         ciudad=self.models.DIM_CIUDAD.query.filter_by(ciudad_key=id).first()
@@ -78,5 +78,5 @@ class CiudadController:
             }),404
         else:
             return jsonify({ 
-                "ciudad_nombre": ciudad.nombre 
+                "ciudad_nombre": ciudad.ciudad_nombre,
             }),200

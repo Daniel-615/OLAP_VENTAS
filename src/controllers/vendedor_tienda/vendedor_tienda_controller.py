@@ -37,7 +37,7 @@ class VendedorTiendaController:
         page = request.args.get('page', default=1, type=int)
         per_page = request.args.get('per_page', default=10, type=int)
 
-        all_vendedor_tienda = self.models.DIM_GERENTE.query.paginate(page=page, per_page=per_page, error_out=False)
+        all_vendedor_tienda = self.models.DIM_VENDEDOR_TIENDA.query.paginate(page=page, per_page=per_page, error_out=False)
         if not all_vendedor_tienda.items:
             return jsonify({
                 "message": "No hay vendedor_tienda registrados."
