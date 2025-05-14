@@ -26,7 +26,7 @@ class Main:
                 self.db.create_all()
             except Exception as e:
                 print(f" Error al crear tablas: {e}")
-
+    
         self.migrate = Migrate(self.app, self.db)
         self.app_initializer = AppInitializer(self.app, self.db, self.models)
 

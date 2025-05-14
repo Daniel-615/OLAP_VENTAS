@@ -22,6 +22,6 @@ class Connection:
         return self.port
     def connect(self):
         try:
-            return f"postgresql://{self.getUser()}:{self.getPassword()}@{self.getHost()}:{self.getPort()}/{self.getDatabase()}"
+            return f"postgresql://{self.getUser()}:{self.getPassword()}@{self.getHost()}:{self.getPort()}/{self.getDatabase()}?sslmode=require"
         except OperationalError as e:
             print(f"Error al parsear la ruta: {e}")
