@@ -7,6 +7,7 @@ from src.routes.vendedor.vendedor_routes import VendedorRoutes as V_R
 from src.routes.tienda.tienda_routes import TiendaRoutes as T_R
 from src.routes.vendedor_tienda.vendedor_tienda_routes import VendedorTiendaRoutes as V_T_R
 from src.routes.segmento.segmento_routes import SegmentoRoutes as S_R
+from src.routes.check_server import CheckServer 
 
 from src.controllers.ciudad.ciudad_controller import CiudadController as CI_C
 from src.controllers.cliente.cliente_controller import ClienteController as C_C
@@ -52,6 +53,7 @@ class AppInitializer:
         self.tienda_routes=T_R(self.app,self)
         self.vendedor_tienda_routes=V_T_R(self.app,self)
         self.segmento_routes=S_R(self.app,self)
+        self.check_server=CheckServer(self.app,self)
     def controllers(self,db,models):
         self.ciudad_controllers=CI_C(db,models)
         self.cliente_controllers=C_C(db,models)
