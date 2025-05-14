@@ -1,7 +1,6 @@
 from psycopg2 import OperationalError
 import os
-from dotenv import load_dotenv
-load_dotenv(override=True)
+
 class Connection:
     def __init__(self):
         self.host = os.environ.get('DB_HOST')
