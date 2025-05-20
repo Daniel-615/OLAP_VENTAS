@@ -49,7 +49,7 @@ class TiendaController:
                 tamaño_m2=tamaño_m2,
                 horario_apertura=horario_apertura,
                 horario_cierre=horario_cierre,
-                previous_agente=previous_agente.gerente_key,
+                gerente_key=previous_agente.gerente_key,
             )
         try:
             self.getDb().session.add(new_tienda)
@@ -112,6 +112,6 @@ class TiendaController:
         else:
             return jsonify({
                 "nombre_tienda": tienda.nombre_tienda,
-                "horario_apertura": tienda.horario_apertura,
-                "horario_cierre": tienda.horario_cierre
+                "horario_apertura": tienda.horario_apertura.strftime('%H:%M'),
+                "horario_cierre": tienda.horario_cierre.strftime('%H:%M')
             })

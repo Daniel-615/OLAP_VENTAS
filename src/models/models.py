@@ -129,8 +129,8 @@ class Models:
                     'ciudad': self.ciudad,
                     'tamaño_m2': self.tamaño_m2,
                     'fecha_apertura': self.fecha_apertura,
-                    'horario_apertura': self.horario_apertura,
-                    'horario_cierre': self.horario_cierre,
+                    "horario_apertura": self.horario_apertura.strftime("%H:%M") if self.horario_apertura else None,
+                    "horario_cierre": self.horario_cierre.strftime("%H:%M") if self.horario_cierre else None,
                     'tienda_id': self.tienda_id,
                     'gerente_key': self.gerente_key
                 }
