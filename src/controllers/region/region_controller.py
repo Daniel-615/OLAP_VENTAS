@@ -65,7 +65,7 @@ class RegionController:
             "nombre": region.region_nombre 
         },200
     def get_region_id(self,id):
-        region=self.models.DIM_REGION.query.filter_by(region_key=id)
+        region=self.models.DIM_REGION.query.filter_by(region_key=id).first()
         if not region:
             return {
                 "message": "Region no encontrado por el id requerido."
