@@ -38,7 +38,7 @@ class CiudadRoutes:
             if not data:
                 return jsonify({"error": "Request body is missing or invalid"}), 400
             return self.app_initializer.getCiudadControllers().put_ciudad(id,data)
-        @self.app.route('/get/ciudad/<uuid:id>',methods=['GET'])
+        @self.app.route('/get/ciudad/<string:id>',methods=['GET'])
         def get_ciudad_by_id(id):
             """
             This method handles the GET request for the ciudad resource by id.
