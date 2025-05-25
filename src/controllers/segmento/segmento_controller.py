@@ -17,11 +17,18 @@ class SegmentoController:
                 "message": "'segmento_id' y 'nombre' son requeridos."
             }), 400
 
-        # Verificar si el segmento_id ya existe
-        exists = self.models.DIM_SEGMENTO.query.filter_by(segmento_id=segmento_id).first()
-        if exists:
+        # Verificar duplicidad por segmento_id
+        if self.models.DIM_SEGMENTO.query.filter_by(segmento_id=segmento_id).first():
             return jsonify({
-                "message": f"Ya existe un segmento con ID '{segmento_id}'."
+                "message": f"Ya existe un segmento con el ID '{segmento_id}'."
+            }), 409
+
+        # Verificar duplicidad por nombre (ignorando mayúsculas/minúsculas)
+        if self.models.DIM_SEGMENTO.query.filter(
+            self.models.DIM_SEGMENTO.nombre.ilike(nombre)
+        ).first():
+            return jsonify({
+                "message": f"Ya existe un segmento con el nombre '{nombre}'."
             }), 409
 
         new_segmento = self.models.DIM_SEGMENTO(
@@ -39,7 +46,8 @@ class SegmentoController:
             }), 500
 
         return jsonify({
-            "message": "Segmento creado correctamente."
+            "message": "Segmento creado correctamente.",
+            "segmento": new_segmento.to_dict()
         }), 201
 
     def get_segmento(self):
@@ -81,6 +89,16 @@ class SegmentoController:
                 "message": "'nombre' es requerido para actualizar."
             }), 400
 
+        # Verificar que el nuevo nombre no esté en uso por otro segmento
+        duplicado = self.models.DIM_SEGMENTO.query.filter(
+            self.models.DIM_SEGMENTO.nombre.ilike(nombre),
+            self.models.DIM_SEGMENTO.segmento_key != id
+        ).first()
+        if duplicado:
+            return jsonify({
+                "message": f"Ya existe otro segmento con el nombre '{nombre}'."
+            }), 409
+
         segmento.nombre = nombre
 
         try:
@@ -92,4 +110,7 @@ class SegmentoController:
                 "message": f"Error al actualizar el segmento: {str(e)}"
             }), 500
 
-        return jsonify(segmento.to_dict()), 200
+        return jsonify({
+            "message": "Segmento actualizado correctamente.",
+            "segmento": segmento.to_dict()
+        }), 200
