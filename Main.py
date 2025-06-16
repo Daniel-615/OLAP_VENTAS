@@ -5,10 +5,12 @@ from flask_migrate import Migrate
 from src.connection.db_connection import Connection
 from src.models.models import Models
 from src.config.app_initializer import AppInitializer
-
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 class Main:
     def __init__(self):
         self.app = Flask(__name__)
+        self.limiter = Limiter(get_remote_address, app=self.app, default_limits=["100 per hour"])
 
         try:
             self.connection = Connection()
