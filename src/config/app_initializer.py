@@ -19,10 +19,11 @@ from src.controllers.tienda.tienda_controller import TiendaController as T_C
 from src.controllers.vendedor_tienda.vendedor_tienda_controller import VendedorTiendaController as V_T_C
 from src.controllers.segmento.segmento_controller import SegmentoController as S_C
 class AppInitializer:
-    def __init__(self,app,db,models):
+    def __init__(self,app,db,models,limiter):
         """
         Inicializa las rutas de la aplicación con la instancia de Flask proporcionada."""
         self.app=app
+        self.limiter=limiter
         self.controllers(db,models)
         self.routes()
     def getSegmentoControllers(self):
@@ -44,15 +45,15 @@ class AppInitializer:
     def getVendedorTiendaControllers(self):
         return self.vendedor_tienda_controllers
     def routes(self):
-        self.ciudad_routes=CI_R(self.app,self)
-        self.cliente_routes=C_R(self.app,self)
-        self.cliente_segmento_routes=C_S_R(self.app,self)
-        self.gerente_routes=G_R(self.app,self)
-        self.region_routes=R_R(self.app,self)
-        self.vendedor_routes=V_R(self.app,self)
-        self.tienda_routes=T_R(self.app,self)
-        self.vendedor_tienda_routes=V_T_R(self.app,self)
-        self.segmento_routes=S_R(self.app,self)
+        self.ciudad_routes=CI_R(self.app,self,self.limiter)
+        self.cliente_routes=C_R(self.app,self,self.limiter)
+        self.cliente_segmento_routes=C_S_R(self.app,self,self.limiter)
+        self.gerente_routes=G_R(self.app,self,self.limiter)
+        self.region_routes=R_R(self.app,self,self.limiter)
+        self.vendedor_routes=V_R(self.app,self,self.limiter)
+        self.tienda_routes=T_R(self.app,self,self.limiter)
+        self.vendedor_tienda_routes=V_T_R(self.app,self,self.limiter)
+        self.segmento_routes=S_R(self.app,self,self.limiter)
     def controllers(self,db,models):
         self.ciudad_controllers=CI_C(db,models)
         self.cliente_controllers=C_C(db,models)
